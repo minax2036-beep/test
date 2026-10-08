@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cookie Login Test</title>
+</head>
+<body>
+
+  <h1>Cookie Login Test</h1>
+
+  <p id="status">ログイン状態を確認中...</p>
+
+  <button onclick="login()">ログイン</button>
+  <button onclick="logout()">ログアウト</button>
+
+  <hr>
+
+  <h2>Cookie情報</h2>
+  <pre id="cookie"></pre>
+
+  <script>
+    function update() {
+      const cookies = document.cookie;
+
+      document.getElementById("cookie").textContent =
+        cookies || "(Cookieなし)";
+
+      if (cookies.includes("test_session=logged_in")) {
+        document.getElementById("status").textContent =
+          "🟢 ログイン中";
+      } else {
+        document.getElementById("status").textContent =
+          "🔴 ログアウト中";
+      }
+    }
+
+    function login() {
+      document.cookie =
+        "test_session=logged_in; Path=/; SameSite=Lax";
+
+      update();
+    }
+
+    function logout() {
+      document.cookie =
+        "test_session=; Max-Age=0; Path=/; SameSite=Lax";
+
+      update();
+    }
+
+    update();
+  </script>
+
+</body>
+</html>
